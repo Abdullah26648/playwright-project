@@ -1,0 +1,19 @@
+{
+  "name": "playwrite-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.53.2",
+    "@types/node": "^24.0.10",
+    "@types/nodemailer": "^6.4.17",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "nodemailer": "^7.0.5"
+  }
+}
