@@ -162,19 +162,19 @@ const PRODUCTS = [
 const DATA_FILE = path.resolve(__dirname, 'productDataHistory.json');
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.example.com',
-  port: 587,
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
   secure: false,
   auth: {
-    user: 'your_email@example.com',
-    pass: 'your_email_password',
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
 
 async function sendEmail(subject: string, text: string) {
   await transporter.sendMail({
-    from: '"Price Monitor" <abdullahplaywrite@gmail.com>',
-    to: 'recipient@example.com',
+    from: `"Price Monitor" <${process.env.SMTP_USER}>`,
+    to: process.env.MAIL_TO,
     subject,
     text,
   });

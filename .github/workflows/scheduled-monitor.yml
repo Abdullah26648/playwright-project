@@ -24,4 +24,10 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright monitor script
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
         run: npx ts-node tests/monitor.ts 
