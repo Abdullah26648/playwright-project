@@ -254,7 +254,8 @@ function detectChanges(oldData: any, newData: any) {
 const ENABLE_EMAIL = false;
 
 async function main() {
-  const browser = await chromium.launch({ headless: false });
+  // Launch browser in headless mode by default. Set HEADLESS=false in environment to run with a visible browser window (headed mode) for local debugging.
+  const browser = await chromium.launch({ headless: process.env.HEADLESS !== 'false' });
   const context = await browser.newContext();
   const history = loadHistory();
   const searchKeywords = ["iphone", "16", "pro", "max"];
