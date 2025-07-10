@@ -259,24 +259,30 @@ async function main() {
   const context = await browser.newContext();
   const history = loadHistory();
   const searchKeywords = ["iphone", "16", "pro", "max"];
-  for (const product of PRODUCTS) {
-    const newData = await scrapeProductData(context, product, searchKeywords);
+
+  // Run all product scrapes in parallel
+  const scrapePromises = PRODUCTS.map(product => scrapeProductData(context, product, searchKeywords));
+  const results = await Promise.all(scrapePromises);
+
+  results.forEach((newData, idx) => {
+    const product = PRODUCTS[idx];
     const oldData = history[product.url];
     const changes = detectChanges(oldData, newData);
     if (changes.length > 0) {
       console.log(`Changes detected for ${product.url}:`);
       changes.forEach(change => console.log(` - ${change}`));
       if (ENABLE_EMAIL) {
-        await sendEmail(
+        sendEmail(
           `Product Update: ${newData.productName}`,
           `Changes detected:\n${changes.join('\n')}\n\nDetails:\n${JSON.stringify(newData, null, 2)}`
-        );
+        ).catch(console.error);
       }
     } else {
       console.log(`No changes for ${product.url}`);
     }
     history[product.url] = newData;
-  }
+  });
+
   saveHistory(history);
   await browser.close();
 }
