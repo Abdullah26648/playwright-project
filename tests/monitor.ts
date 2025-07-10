@@ -13,6 +13,13 @@ function parsePrice(priceText: string): number {
   return parseFloat(priceText.replace(/[^\d,]/g, '').replace(',', '.'));
 }
 
+// Utility function to format price as 'number ₺'
+function formatPrice(priceNumber: number): string {
+  if (isNaN(priceNumber)) return 'Price not found';
+  // Format with dot as thousands separator, no decimals, and add ' ₺' at the end
+  return priceNumber.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + ' ₺';
+}
+
 // Add this helper function near the top (after imports):
 async function getStableResultCountFlexible(
   page: import('playwright').Page,
@@ -72,7 +79,7 @@ async function extractProductInfo(
     } catch {}
     if (!isNaN(priceNumber) && priceNumber < minPrice) {
       minPrice = priceNumber;
-      bestProduct = { productName, price: priceText, availability };
+      bestProduct = { productName, price: formatPrice(priceNumber), availability };
     }
   }
   return bestProduct;
