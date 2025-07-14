@@ -1,4 +1,4 @@
-import { chromium, BrowserContext, Locator } from 'playwright';
+import { chromium, firefox, webkit, BrowserType, BrowserContext, Locator } from 'playwright';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as nodemailer from 'nodemailer';
@@ -261,8 +261,13 @@ function detectChanges(oldData: any, newData: any) {
 const ENABLE_EMAIL = false;
 
 async function main() {
+  // Randomly select a browser
+  const browsers: BrowserType<any>[] = [chromium, firefox, webkit];
+  const randomIndex = Math.floor(Math.random() * browsers.length);
+  const selectedBrowser = browsers[randomIndex];
+  console.log(`[DEBUG] Selected browser: ${selectedBrowser.name()}`);
   // Launch browser in headed mode for local debugging. Change to headless: true for CI environments.
-  const browser = await chromium.launch({ headless: false });
+  const browser = await selectedBrowser.launch({ headless: false });
   const context = await browser.newContext();
   const history = loadHistory();
   const searchKeywords = ["iphone", "16", "pro", "max"];

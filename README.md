@@ -13,6 +13,18 @@ This project is an automated product monitoring tool built with Playwright and N
 - If a change is detected, sends an email to the configured recipient with details of the change.
 - Stores product history to avoid duplicate notifications.
 - Supports both headless and headed browser modes for flexibility in local debugging and CI environments.
+- The monitor script randomly selects between Chromium, Firefox, and WebKit browsers for each run.
+- **Automatically handles cookie consent popups on monitored sites.**
+- **Scrapes all monitored sites in parallel for faster execution.**
+
+## Usage
+- To run the monitor script locally, use:
+  ```
+  npx ts-node tests/monitor.ts
+  ```
+- The selected browser will be printed in the console output (tagged with [DEBUG]).
+- Make sure your environment variables for SMTP and email are set if you want to enable email notifications.
+- **Email notifications require both the environment variables and the `ENABLE_EMAIL` flag set to `true` in the code.**
 
 ## What Was Implemented
 - Product monitoring logic for multiple e-commerce sites.
