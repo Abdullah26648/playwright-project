@@ -266,8 +266,9 @@ async function main() {
   const randomIndex = Math.floor(Math.random() * browsers.length);
   const selectedBrowser = browsers[randomIndex];
   console.log(`[DEBUG] Selected browser: ${selectedBrowser.name()}`);
-  // Launch browser in headed mode for local debugging. Change to headless: true for CI environments.
-  const browser = await selectedBrowser.launch({ headless: false });
+  // Use headless mode only for remote/CI environments
+  const isRemote = !!process.env.CI || process.env.HEADLESS === 'true';
+  const browser = await selectedBrowser.launch({ headless: isRemote });
   const context = await browser.newContext();
   const history = loadHistory();
   const searchKeywords = ["iphone", "16", "pro", "max"];
