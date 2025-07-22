@@ -258,7 +258,7 @@ function detectChanges(oldData: any, newData: any) {
   return changes;
 }
 
-const ENABLE_EMAIL = false;
+const ENABLE_EMAIL = true;
 
 async function main() {
   // Randomly select a browser
